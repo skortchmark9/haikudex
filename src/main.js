@@ -26,8 +26,7 @@ export function isHaiku(msg, separator = '//') {
 	wn.isNoun("callback", function(err, data) {
 		console.log(data);
 	})
-
-});
+}
 
 let countSyllables = function ( phrase ) {
 	let tokens = phrase.split(/\W/);
