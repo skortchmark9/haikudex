@@ -1,0 +1,19 @@
+{
+  "name": "haikudex",
+  "version": "1.0.0",
+  "description": "A package to turn text into haikus",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/skortchmark9/haikudex.git"
+  },
+  "author": "skortchmark9, nicoleholly",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/skortchmark9/haikudex/issues"
+  },
+  "homepage": "https://github.com/skortchmark9/haikudex#readme"
+}
