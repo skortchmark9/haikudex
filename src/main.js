@@ -1,9 +1,9 @@
 import syllable from 'syllable';
-// var wordNet = require('wordnet-magic');
+ var wordNet = require('wordnet-magic');
 // var wn = wordNet('insert path', preload);
 
 //import {path, files, version} from 'wordnet-db';
-//var wordNet = require('wordnet-magic')
+var wordNet = require('wordnet-magic')
 
 
 export function isHaiku(msg, separator = '//') {
@@ -17,8 +17,25 @@ export function isHaiku(msg, separator = '//') {
 	} else {
 		// what to do if commit is shorter than a haiku
 	}
+/*
+	var wn = wordNet(null, false);
 
+	console.log(wn instanceof wordNet)
+
+	var white = new wn.Word("white");
+
+	white.getAntonyms().then(function(synsetArray){
+		console.log(synsetArray);
+	});
+
+	var high = new wn.Word("high");
+	high.getAntonyms().then(function(antonymArray){
+		console.log(antonymArray);
+	})
+
+*/
 	return haikuLength === 17;
+}
 
 Array.prototype.sum = function() {
   return this.reduce((a, b) => a + b);
