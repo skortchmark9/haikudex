@@ -29,6 +29,7 @@
     "babel-preset-es2015": "^6.3.13",
     "eslint": "^1.10.3",
     "eslint-config-google": "^0.3.0",
+    "lodash": "^3.10.1",
     "phonemenon": "^1.3.0",
     "syllable": "^0.1.4",
     "wordnet-db": "^3.1.2",
@@ -62,8 +63,7 @@
       "no-alert": 0,
       "consistent-return": 1,
       "curly": 1,
-      "camelcase": 0,
-      "no-extend-native": 0
+      "camelcase": 0
     }
   }
 }

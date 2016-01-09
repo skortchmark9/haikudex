@@ -1,4 +1,5 @@
 import syllable from 'syllable';
+import _ from 'lodash';
 // var wordNet = require('wordnet-magic');
 // var wn = wordNet('insert path', preload);
 
@@ -9,32 +10,54 @@ import syllable from 'syllable';
 export function isHaiku(msg, separator = '//') {
 	let rows = msg.split(separator).map((str) => str.trim());
 
-	var haikuLength = rows.map(countSyllables).sum();
-	if (haikuLength > 17) {
-		// what to do if commit is longer than a haiku
-	} else if ( haikuLength === 17 ) {
-		//just print the haiku ??
-	} else {
-		// what to do if commit is shorter than a haiku
-	}
-
-	return haikuLength === 17;
-
-export function makeHaiku(msg) {
-  return msg + ' is a haiku';
+	var haikuLength = _.sum(rows.map(countSyllables));
+  return haikuLength === 17;
 }
 
-Array.prototype.sum = function() {
-  return this.reduce((a, b) => a + b);
-};
+// Sam's club
+export function makeHaiku(msg) {
+  while(!isHaiku(msg)) {
+    var difference = haikuLength - msg.length;
+    var word;
+    if (difference > 0) {
+      shortenToken(word, difference)
+    } else {
+      expandToken(word, difference)
+    }
+
+  }
+
+  return msg;
+}
+
+
+// Chrys' Domain
+function addExpletive(phrase, length) {
+  return phrase;
+}
+
+function addAdjective(phrase, length) {
+  return phrase;
+}
+
+function removeWords(phrase, length) {
+  return phrase;
+}
+
+// Nicole WUZ HERE
+function shortenWord(word, maxShortening) {
+  return word;
+}
+
+function expandWord(word, maxExpansion) {
+  // try to find a synonym with a longer syllable count
+  return word;
+}
 
 let countSyllables = function(phrase) {
   let tokens = phrase.split(/\W/);
-  return tokens.map(syllable).sum();
+  return _.sum(tokens.map(syllable));
 };
-
-
-
 
 /*
 steps to check if it is a haiku
