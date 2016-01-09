@@ -67,8 +67,8 @@ function shortenWord(word, adjustment) {
 			//	if ( ( newWorldSyllables - currentWorldSyllables) <= adjustment)
 			//	if (demSyllables <= maxShortening) {
 			//		console.log(possNewWord)
-				//	theNewWord = possNewWord;
-			//		return theNewWord;
+					theNewWord = possNewWord;
+					return theNewWord;
 				}
 			})
 		})
