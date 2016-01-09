@@ -5,3 +5,7 @@ export function isHaiku(msg, separator = '//') {
 	console.log(l1, l2, l3);
 	return true;
 };
+
+export function makeHaiku(msg) {
+	return msg + ' is a haiku';
+}
