@@ -5,14 +5,22 @@ import syllable from 'syllable';
 import {path, files, version} from 'wordnet-db';
 var wordNet = require('wordnet-magic')
 
-export function isHaiku(msg, separator = '//') {
-	let [l1, l2, l3] = msg.split(separator).map((str) => str.trim());
-	let phraseVar = '';
+Array.prototype.sum = function() {return this.reduce((a, b) => a + b); }
 
-	console.log(l1, l2, l3);
-	console.log(countSyllables(l1));
-	console.log(countSyllables(l2));
-	console.log(countSyllables(l3));
+
+export function isHaiku(msg, separator = '//') {
+	let rows = msg.split(separator).map((str) => str.trim());
+
+	var haikuLength = rows.map(countSyllables).sum();
+	if (haikuLength > 17) {
+		// what to do if commit is longer than a haiku
+	} else if ( haikuLength === 17 ) {
+		//just print the haiku ??
+	} else {
+		// what to do if commit is shorter than a haiku
+	}
+
+	return haikuLength === 17;
 
 	let wn = wnm(path, false);
 	wn.isNoun("callback", function(err, data) {
@@ -21,20 +29,13 @@ export function isHaiku(msg, separator = '//') {
 
 });
 
-	if (countSyllables( phraseVar ) > 17) {
-		// what to do if commit is longer than a haiku
-	} else if (countSyllables ( phraseVar ) === 17 ){
-		//just print the haiku ??
-		console.log(phraseVar);
-	} else {
-		// what to do if commit is shorter than a haiku
-	}
-
-	return true;
-};
-
 let countSyllables = function ( phrase ) {
-	return syllable(phrase);
+	let tokens = phrase.split(/\W/);
+	return tokens.map(syllable).sum();
+}
+
+export function makeHaiku(msg) {
+	return msg + ' is a haiku';
 }
 
 
