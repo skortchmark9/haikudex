@@ -2,32 +2,26 @@ import syllable from 'syllable';
 //var wordNet = require('wordnet-magic');
 // var wn = wordNet('insert path', preload);
 
+Array.prototype.sum = function() {return this.reduce((a, b) => a + b); }
 
 export function isHaiku(msg, separator = '//') {
-	let [l1, l2, l3] = msg.split(separator).map((str) => str.trim());
-	console.log(l1, l2, l3);
-	//console.log(countSyllables(l1 + ' ' + l2 + ' ' + l3));
-	console.log(countSyllables(l1));
-	console.log(countSyllables(l2));
-	console.log(countSyllables('hopefully'));
-	console.log(countSyllables('they'));
-	console.log(countSyllables('hopefully they'));
-	console.log(countSyllables(l3));
+	let rows = msg.split(separator).map((str) => str.trim());
 
-	if (countSyllables( l1 ) > 17) {
+	var haikuLength = rows.map(countSyllables).sum();
+	if (haikuLength > 17) {
 		// what to do if commit is longer than a haiku
-	} else if (countSyllables ( l1 ) === 17 ){
+	} else if ( haikuLength === 17 ) {
 		//just print the haiku ??
-		console.log(l1);
 	} else {
 		// what to do if commit is shorter than a haiku
 	}
 
-	return true;
+	return haikuLength === 17;
 };
 
 let countSyllables = function ( phrase ) {
-	return syllable(phrase);
+	let tokens = phrase.split(/\W/);
+	return tokens.map(syllable).sum();
 }
 
 
