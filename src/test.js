@@ -1,4 +1,4 @@
-import {isHaiku} from './main.js';
+import {isHaiku, makeHaiku} from './main.js';
 
 function all(arr) {
   return arr.reduce((a, b) => a && b, true);
@@ -23,3 +23,13 @@ if (all(haikus.map(isHaiku))) {
 if (any(notHaikus.map(isHaiku))) {
   console.log('thought some not-haikus were haikus');
 }
+
+var almostHaikus = [
+  'the car ran into a ditch and oil leaked from steaming tires'
+];
+
+if (all(almostHaikus.map(makeHaiku).map(isHaiku))) {
+  console.log('made a bunch of haikus!!');
+}
+
+console.log(break)
