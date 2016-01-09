@@ -15,3 +15,4 @@ fs.readFile(msgPath, 'utf8', function(err, msg) {
 		process.exit(0);
 	});
 });
+
