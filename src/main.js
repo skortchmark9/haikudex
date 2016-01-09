@@ -2,26 +2,39 @@ import syllable from 'syllable';
 //var wordNet = require('wordnet-magic');
 // var wn = wordNet('insert path', preload);
 
-Array.prototype.sum = function() {return this.reduce((a, b) => a + b); }
+import {path, files, version} from 'wordnet-db';
+var wordNet = require('wordnet-magic')
 
 export function isHaiku(msg, separator = '//') {
-	let rows = msg.split(separator).map((str) => str.trim());
+	let [l1, l2, l3] = msg.split(separator).map((str) => str.trim());
+	let phraseVar = '';
 
-	var haikuLength = rows.map(countSyllables).sum();
-	if (haikuLength > 17) {
+	console.log(l1, l2, l3);
+	console.log(countSyllables(l1));
+	console.log(countSyllables(l2));
+	console.log(countSyllables(l3));
+
+	let wn = wnm(path, false);
+	wn.isNoun("callback", function(err, data) {
+		console.log(data);
+	})
+
+});
+
+	if (countSyllables( phraseVar ) > 17) {
 		// what to do if commit is longer than a haiku
-	} else if ( haikuLength === 17 ) {
+	} else if (countSyllables ( phraseVar ) === 17 ){
 		//just print the haiku ??
+		console.log(phraseVar);
 	} else {
 		// what to do if commit is shorter than a haiku
 	}
 
-	return haikuLength === 17;
+	return true;
 };
 
 let countSyllables = function ( phrase ) {
-	let tokens = phrase.split(/\W/);
-	return tokens.map(syllable).sum();
+	return syllable(phrase);
 }
 
 
@@ -35,7 +48,3 @@ steps to check if it is a haiku
  	for what is missing -> fill in rhyme etc. to make up length ?? nonsensical ?? 
 */
 
-
-export function makeHaiku(msg) {
-	return msg + ' is a haiku';
-}
