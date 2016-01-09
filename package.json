@@ -32,6 +32,7 @@
     "lodash": "^3.10.1",
     "phonemenon": "^1.3.0",
     "syllable": "^0.1.4",
+    "wordnet": "^0.1.2",
     "wordnet-db": "^3.1.2",
     "wordnet-magic": "^0.3.0",
     "wordnet-sqlite": "^1.0.1"
