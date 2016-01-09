@@ -1,2 +1,2 @@
-import {t} from './main.js';
-console.log(t);
+import {isHaiku} from './main.js';
+console.log(isHaiku('sup!'));
