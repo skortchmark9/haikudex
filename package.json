@@ -6,7 +6,8 @@
   "scripts": {
     "test": "node lib/test.js",
     "run": "node lib/main.js",
-    "build": "babel src -d lib"
+    "build": "babel src -d lib",
+    "watch": "babel src -d lib --watch"
   },
   "repository": {
     "type": "git",

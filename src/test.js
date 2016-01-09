@@ -1,2 +1,2 @@
-import {t} from 'main.js';
+import {t} from './main.js';
 console.log(t);
