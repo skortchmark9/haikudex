@@ -1,12 +1,16 @@
 #! /usr/bin/env node
 fs = require('fs');
 console.log(process.argv[1]);
-var makeHaiku = require('../lib/main.js').makeHaiku;
+var Haiku = require('../lib/main.js');
 
 var msgPath = process.argv[2];
 fs.readFile(msgPath, 'utf8', function(err, msg) {
-	msg = msg.trim();
-	var haiku = makeHaiku ? makeHaiku(msg) : msg;
+	var haiku = msg = msg.trim();
+	// var haiku = Haiku.makeHaiku ? Haiku.makeHaiku(msg) : msg;
+	if (Haiku.isHaiku(msg)) {
+		haiku += ' is a haiku';
+	};
+
 	fs.writeFile(msgPath, haiku, function(err) {
 		process.exit(0);
 	});
