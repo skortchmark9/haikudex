@@ -1,2 +1,2 @@
 # haikudex
-Haikus
+Haikus for Git <(")
