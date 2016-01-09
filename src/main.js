@@ -9,6 +9,8 @@ export function isHaiku(msg, separator = '//') {
 	//console.log(countSyllables(l1 + ' ' + l2 + ' ' + l3));
 	console.log(countSyllables(l1));
 	console.log(countSyllables(l2));
+	console.log(countSyllables('hopefully'));
+	console.log(countSyllables('they'));
 	console.log(countSyllables('hopefully they'));
 	console.log(countSyllables(l3));
 
