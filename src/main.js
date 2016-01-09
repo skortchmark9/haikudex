@@ -20,6 +20,10 @@ export function isHaiku(msg, separator = '//') {
 
 	return haikuLength === 17;
 
+export function makeHaiku(msg) {
+  return msg + ' is a haiku';
+}
+
 Array.prototype.sum = function() {
   return this.reduce((a, b) => a + b);
 };
@@ -29,9 +33,8 @@ let countSyllables = function(phrase) {
   return tokens.map(syllable).sum();
 };
 
-export function makeHaiku(msg) {
-	return msg + ' is a haiku';
-}
+
+
 
 /*
 steps to check if it is a haiku
