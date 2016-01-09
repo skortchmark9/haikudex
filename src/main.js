@@ -34,38 +34,36 @@ function addWords(phrase, length) {
 
 // Nicole WUZ HERE
 function shortenWord(word, adjustment) {
-	console.log(word);
-	let possibleNewWord = [];
-	let theNewWord;
-	let currentWorldSyllables = countSyllables(word)
+  console.log(word);
+  let possibleNewWord = [];
+  let theNewWord;
+  let currentWorldSyllables = countSyllables(word);
 
-	if (word != 'everything') {
-		wordnet.lookup(word, function(err, definitions) {
-			definitions.forEach(function(definition) {
-				var words = definition.meta.words;
-				words.forEach(function(word) {
-					if (!_.includes(possibleNewWord, word.word)) { 
-						possibleNewWord.push(word.word);
-					}
-				})
-			})
-			possibleNewWord.forEach(function(possNewWord) {
-				let newWorldSyllables = countSyllables(possNewWord);
-				// this is not right ...
-			//	if ( ( newWorldSyllables - currentWorldSyllables) <= adjustment)
-			//	if (demSyllables <= maxShortening) {
-			//		console.log(possNewWord)
-					theNewWord = possNewWord;
-					return theNewWord;
-				}
-			})
-		})
-	}
-	return word;
+  if (word !== 'everything') {
+    wordnet.lookup(word, function(err, definitions) {
+      definitions.forEach(function(definition) {
+        var words = definition.meta.words;
+        words.forEach(function(word) {
+          if (!_.includes(possibleNewWord, word.word)) { 
+            possibleNewWord.push(word.word);
+          }
+        })
+      });
+      possibleNewWord.forEach(function(possNewWord) {
+        let newWorldSyllables = countSyllables(possNewWord);
+        // this is not right ...
+      //  if ( ( newWorldSyllables - currentWorldSyllables) <= adjustment)
+      //  if (demSyllables <= maxShortening) {
+      //    console.log(possNewWord)
+          theNewWord = possNewWord;
+          return theNewWord;
+      });
+    });
+  }
+  return word;
 }
 
 function expandWord(word, maxExpansion) {
-  // try to find a synonym with a longer syllable count
   return word;
 }
 
@@ -74,12 +72,103 @@ let countSyllables = function(phrase) {
   return _.sum(tokens.map(syllable));
 };
 
-/*
-steps to check if it is a haiku
- 1. check syllable length of commit
- 2. if longer - > check for haikus in commit..
-  a) if haiku -> print done !
-  b) if not -> get most of haiku and continue? choose key words and continue?
- 3. if shorter -> check syllable counts?
-  for what is missing -> fill in rhyme etc. to make up length ?? nonsensical ??
-  	*/
+function getLines(msg) {
+  return msg.split(separator).map(s => s.trim()).map(line => line.split(/\W/));
+}
+
+function adjustWord(word, adjustment) {
+  if (adjustment > 0) {
+    return expandWord(word, adjustment);
+  } else if (adjustment < 0) {
+    return shortenWord(word, adjustment);
+  } else {
+    return word;
+  }
+}
+
+function adjustPhrase(phrase, adjustment) {
+  if (adjustment > 0) {
+    return addWords(phrase, adjustment);
+  } else if (adjustment < 0) {
+    return removeWords(phrase, adjustment);
+  } else {
+    return phrase;
+  }
+}
+
+function adjustSyllables(msg, adjustment) {
+  let lines = getLines(msg);
+  let line = 0;
+  let idx = 0;
+  let token = lines[line][idx];
+
+  // First loop to make small adjustments to existing words' lengths.
+  while (adjustment !== 0 && line < 3) {
+    let newWord = adjustWord(token, adjustment);
+    lines[line][idx] = newWord;
+
+    adjustment -= (newWord.length - token.length);
+    lines[line][idx] = token;
+
+    idx++;
+    token = lines[line][idx];
+    if (!token) {
+      line++;
+      token = lines[line][idx];
+    }
+  }
+
+  var joined = lines.map(line => line.join(' '));
+  line = 0;
+
+  // Second while loop to add / remove extraneous words
+  while (adjustment !== 0 && line < 3) {
+    let oldPhrase = joined[line];
+    let newPhrase = adjustPhrase(oldPhrase, adjustment);
+    joined[line] = newPhrase;
+    adjustment -= (countSyllables(newPhrase), countSyllables(oldPhrase));
+    line++;
+  }
+
+  return joined.join(' ' + separator + ' ');
+}
+
+export function isHaiku(msg) {
+  return countHaikuSyllables(msg, separator) === HAIKU_LENGTH;
+}
+
+export function breakIntoHaiku(msg) {
+  var tokens = msg.split(/\W/);
+  var rows = [];
+  var row = [];
+  var rowSyllables = 0;
+  var line = 0;
+  tokens.forEach(function(token) {
+    let syllables = syllable(token);
+    if (rowSyllables + syllables > (line === 1 ? 7 : 5)) {
+      rows.push(row);
+      rowSyllables = 0;
+      row = [];
+    } else {
+      rowSyllables += syllables;
+      row.push(token);
+    }
+  });
+}
+
+/**
+ * steps to check if it is a haiku
+ * 1. check syllable length of commit
+ * 2. if longer - > check for haikus in commit..
+ *  a) if haiku -> print done !
+ *  b) if not -> get most of haiku and continue? choose key words and continue?
+ * 3. if shorter -> check syllable counts?
+ * for what is missing -> fill in rhyme etc. to make up length ?? nonsensical ??
+*/
+export function makeHaiku(msg) {
+  let syllables = countHaikuSyllables(msg);
+  let difference = HAIKU_LENGTH - syllables;
+
+  msg = breakIntoHaiku(msg);
+  return adjustSyllables(msg, difference);
+}
