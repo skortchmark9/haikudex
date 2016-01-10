@@ -22,7 +22,7 @@ DON'T LOOK UP HERE!!!!
 
 const HAIKU_LENGTH = 17;
 const separator = '//';
-const FOUL = false;
+const FOUL = true;
 
 /*
 OR DOWN HERE!!!!
