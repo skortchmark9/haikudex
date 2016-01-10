@@ -29,3 +29,5 @@ var almostHaikus = [
   'the car ran into a ditch and oil leaked from steaming tires'
 ];
 
+console.log(makeHaiku('thought his hammock was fat and then here are more words to test'))
+

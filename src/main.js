@@ -11,81 +11,10 @@ import thesaurus from './data/thesaurus.js';
 let adjectives = descriptors.map(word => [word, syllable(word)]);
 let curses = cusseth.map(word => [word, syllable(word)]);
 
-/*
-
-
-
-
-
-DON'T LOOK UP HERE!!!!
-*/
-
 const HAIKU_LENGTH = 17;
 const separator = '//';
 const FOUL = true;
 
-/*
-OR DOWN HERE!!!!
-
-
-
-
-
-
-       .     _///_,
-     .      / ` ' '>
-       )   o'  __/_'>
-      (   /  _/  )_\'>
-       ' "__/   /_/\_>
-           ____/_/_/_/
-          /,---, _/ /
-         ""  /_/_/_/
-            /_(_(_(_                 \
-           (   \_\_\\_               )\
-            \'__\_\_\_\__            ).\
-            //____|___\__)           )_/
-            |  _  \'___'_(           /'
-             \_ (-'\'___'_\      __,'_'
-             __) \  \\___(_   __/.__,'
-          ,((,-,__\  '", __\_/. __,'
-                       '"./_._._-'
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-*/
-
-
-
-
-
-
-
-
-
-
-
-
-// Chrys' Domain
 function addModifier(phrase, length, mod) {
   let tokens = phrase.split(/\W/);
   let nounList = tokens.map(word => _.contains(nouns, word));
@@ -139,7 +68,6 @@ function addWords(phrase, length) {
   }
 }
 
-// Nicole WUZ HERE
 export function shortenWord(word, adjustment) {
   let possibleNewWord = [];
   let theNewWord;
@@ -180,8 +108,6 @@ export function shortenWord(word, adjustment) {
 
 }
 
-
-
 function possibleSynonymArray(word) {
   if (thesaurus[word]) {
     return thesaurus[word];
@@ -207,9 +133,6 @@ function possibleSynonymArrayAsync(word) {
   });
   return promise;
 }
-
-
-
 
 export function expandWord(word, adjustment) {
   let possibleNewWord = [];
@@ -260,7 +183,6 @@ function adjustWord(word, adjustment) {
 }
 
 export function adjustPhrase(phrase, adjustment) {
-  console.log(phrase, adjustment);
   if (adjustment > 0) {
     return addWords(phrase, adjustment);
   } else if (adjustment < 0) {
@@ -335,7 +257,6 @@ function adjustSyllables(lines, adjustment) {
 
   }
 
-
   return joined.join(' ' + separator + ' ');
 }
 
@@ -375,17 +296,8 @@ export function breakIntoHaiku(msg) {
   }
 
   return rows;
-}
+};
 
-/**
- * steps to check if it is a haiku
- * 1. check syllable length of commit
- * 2. if longer - > check for haikus in commit..
- *  a) if haiku -> print done !
- *  b) if not -> get most of haiku and continue? choose key words and continue?
- * 3. if shorter -> check syllable counts?
- * for what is missing -> fill in rhyme etc. to make up length ?? nonsensical ??
- */
  export function makeHaiku(msg) {
   let syllables = countSyllables(msg);
   let difference = HAIKU_LENGTH - syllables;
