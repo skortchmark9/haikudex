@@ -4,6 +4,7 @@ function all(arr) {
   return arr.reduce((a, b) => a && b, true);
 }
 
+
 function any(arr) {
   return arr.reduce((a, b) => a || b, false);
 }
