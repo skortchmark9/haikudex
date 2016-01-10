@@ -15,7 +15,7 @@ let curses = cusseth.map(word => [word, syllable(word)]);
 
 const HAIKU_LENGTH = 17;
 const separator = '//';
-const FOUL = false;
+const FOUL = true;
 
 
 // Chrys' Domain
@@ -234,7 +234,6 @@ function adjustSyllables(lines, adjustment) {
 
     }
   }
-
 
 
   var joined = lines.map(line => line.join(' '));
