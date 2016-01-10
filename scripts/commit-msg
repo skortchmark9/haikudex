@@ -6,10 +6,10 @@ var Haiku = require('../lib/main.js');
 var msgPath = process.argv[2];
 fs.readFile(msgPath, 'utf8', function(err, msg) {
   var haiku = msg = msg.trim();
-  // var haiku = Haiku.makeHaiku ? Haiku.makeHaiku(msg) : msg;
-  //var test = Haiku.makeHaiku(msg);
+  var haiku = Haiku.makeHaiku ? Haiku.makeHaiku(msg) : msg;
+
   if (Haiku.isHaiku(msg)) {
-    haiku += ' is a haiku';
+    haiku += '\n is a haiku';
   } 
 
   fs.writeFile(msgPath, haiku, function() {
