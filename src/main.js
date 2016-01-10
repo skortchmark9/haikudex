@@ -49,11 +49,7 @@ export function addAdjective(phrase, length) {
 }
 
 
-
-
-
 export function removeWords(phrase, length) {
-  console.log(phrase, length);
   let tokens = phrase.split(/\W/);
   let newTokens = [];
   tokens.forEach(function(token) {
