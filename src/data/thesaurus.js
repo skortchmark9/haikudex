@@ -12,7 +12,7 @@ export default {
 		"lid",
 		"millinery",
 		"Panama",
-		"head-protector",
+		"headprotector",
 		"sailor",
 		"skimmer",
 		"sombrero",
