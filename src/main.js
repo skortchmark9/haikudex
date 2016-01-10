@@ -11,11 +11,61 @@ import thesaurus from './data/thesaurus.js';
 let adjectives = descriptors.map(word => [word, syllable(word)]);
 let curses = cusseth.map(word => [word, syllable(word)]);
 
+/*
+
+
+
+
+
+DON'T LOOK UP HERE!!!!
+*/
+
 const HAIKU_LENGTH = 17;
 const separator = '//';
 const FOUL = false;
 
+/*
+OR DOWN HERE!!!!
 
+       .     _///_,
+     .      / ` ' '>
+       )   o'  __/_'>
+      (   /  _/  )_\'>
+       ' "__/   /_/\_>
+           ____/_/_/_/
+          /,---, _/ /
+         ""  /_/_/_/
+            /_(_(_(_                 \
+           (   \_\_\\_               )\
+            \'__\_\_\_\__            ).\
+            //____|___\__)           )_/
+            |  _  \'___'_(           /'
+             \_ (-'\'___'_\      __,'_'
+             __) \  \\___(_   __/.__,'
+          ,((,-,__\  '", __\_/. __,'
+                       '"./_._._-'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*/
 
 
 
