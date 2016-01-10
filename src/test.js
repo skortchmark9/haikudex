@@ -28,4 +28,4 @@ var almostHaikus = [
   'the car ran into a ditch and oil leaked from steaming tires'
 ];
 
-console.log(addAdjective('the hat', 3));
+console.log(removeWords('the hat is an ugly hat', 2));
