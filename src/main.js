@@ -241,6 +241,7 @@ function adjustSyllables(lines, adjustment) {
 
   var joined = lines.map(line => line.join(' '));
   line = 0;
+  console.log(adjustment);
 
   // Second while loop to add / remove extraneous words
   while (adjustment !== 0 && line < 3) {
