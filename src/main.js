@@ -96,7 +96,7 @@ export function shortenWord(word, adjustment) {
 
   var response = possibleSynonymArray(word);
 
-  if (!_.isEmpty(response)){
+  if (!_.isEmpty(response)) {
     for (let x=0; x<response.length; x++) {
       list[x] = [response[x], syllable(response[x])]
     }
@@ -263,6 +263,7 @@ function adjustSyllables(lines, adjustment) {
         lineAdjustment = adjustment < maxLineAdjustment ?  maxLineAdjustment : adjustment;
         // lineAdjustment += lineCount;
       } else if (adjustment > 0) {
+        console.log(maxLineAdjustment);
         lineAdjustment = adjustment > maxLineAdjustment ? maxLineAdjustment : adjustment;
         lineAdjustment -= lineCount;
       }
