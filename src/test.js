@@ -1,4 +1,4 @@
-import {isHaiku, makeHaiku, deferred, shortenWord} from './main.js';
+import {isHaiku, makeHaiku, shortenWord, addAdjective, addExpletive, removeWords} from './main.js';
 
 function all(arr) {
   return arr.reduce((a, b) => a && b, true);
@@ -27,5 +27,3 @@ if (any(notHaikus.map(isHaiku))) {
 var almostHaikus = [
   'the car ran into a ditch and oil leaked from steaming tires'
 ];
-
-shortenWord('automobile', 1);
