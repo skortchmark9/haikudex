@@ -236,6 +236,7 @@ function adjustSyllables(lines, adjustment) {
   }
 
 
+
   var joined = lines.map(line => line.join(' '));
   line = 0;
 
