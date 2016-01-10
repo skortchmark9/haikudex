@@ -32,6 +32,7 @@ function addModifier(phrase, length, mod) {
   return mod + ' ' + phrase;
 }
 
+
 export function addExpletive(phrase, length) {
   var curse = _.sample(curses.filter(tuple => tuple[1] === length));
   if (!curse) {
