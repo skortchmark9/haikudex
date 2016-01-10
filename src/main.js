@@ -1,6 +1,7 @@
 import syllable from 'syllable';
 import _ from 'lodash';
 import wordnet from 'wordnet';
+var $ = require('jquery-deferred');
 import stopwords from './stopwords.js';
 
 const HAIKU_LENGTH = 17;
@@ -171,6 +172,18 @@ export function breakIntoHaiku(msg) {
 
   return rows;
 }
+
+export function deferred() {
+  var promise = $.Deferred();
+
+  setTimeout(function() {
+    promise.resolve("RESLOVE");
+  }, 2000);
+
+  return promise;
+}
+
+
 
 /**
  * steps to check if it is a haiku
