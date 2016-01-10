@@ -28,5 +28,4 @@ var almostHaikus = [
   'the car ran into a ditch and oil leaked from steaming tires'
 ];
 
-makeHaiku('thought his hammock was fat and then here are more words to test');
-console.log('result', adjustPhrase('hat in my house cat', -1));
+console.log(makeHaiku('thought his hammock was fat and then here are more words to test'))

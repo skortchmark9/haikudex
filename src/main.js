@@ -7,12 +7,19 @@ import descriptors from './data/descriptors.js';
 import cusseth from './data/cusseth.js';
 import nouns from './data/nouns.js';
 
+//import thesaurus from './data/thesaurus.js';
+
 let adjectives = descriptors.map(word => [word, syllable(word)]);
 let curses = cusseth.map(word => [word, syllable(word)]);
 
 const HAIKU_LENGTH = 17;
 const separator = '//';
 const FOUL = true;
+
+let countSyllables = function(phrase) {
+  let tokens = phrase.split(/\W/);
+  return _.sum(tokens.map(syllable));
+};
 
 export function isHaiku(msg) {
   return countSyllables(msg, separator) === HAIKU_LENGTH;
@@ -58,30 +65,6 @@ export function breakIntoHaiku(msg) {
   return rows;
 }
 
-let countSyllables = function(phrase) {
-  let tokens = phrase.split(/\W/);
-  return _.sum(tokens.map(syllable));
-};
-
-function adjustWord(word, adjustment) {
-  if (adjustment > 0) {
-    return expandWord(word, adjustment);
-  } else if (adjustment < 0) {
-    return shortenWord(word, adjustment);
-  } else {
-    return word;
-  }
-}
-
-export function adjustPhrase(phrase, adjustment) {
-  if (adjustment > 0) {
-    return addWords(phrase, adjustment);
-  } else if (adjustment < 0) {
-    return removeWords(phrase, adjustment);
-  } else {
-    return phrase;
-  }
-}
 
 function adjustSyllables(lines, adjustment) {
   let line = 0;
@@ -133,14 +116,35 @@ function adjustSyllables(lines, adjustment) {
   return joined.join(' ' + separator + ' ');
 }
 
+function adjustWord(word, adjustment) {
+  if (adjustment > 0) {
+    return expandWord(word, adjustment);
+  } else if (adjustment < 0) {
+    return shortenWord(word, adjustment);
+  } else {
+    return word;
+  }
+}
+
+function adjustPhrase(phrase, adjustment) {
+  if (adjustment > 0) {
+    return addWords(phrase, adjustment);
+  } else if (adjustment < 0) {
+    return removeWords(phrase, adjustment);
+  } else {
+    return phrase;
+  }
+}
+
 function addWords(phrase, length) {
   if (FOUL) {
     return addExpletive(phrase, length);
   } else {
     return addAdjective(phrase, length);
   }
+}
 
-export function removeWords(phrase, length) {
+function removeWords(phrase, length) {
   length *= -1;
   let tokens = phrase.split(/\W/);
   let newTokens = [];
@@ -155,7 +159,7 @@ export function removeWords(phrase, length) {
   return newTokens.join(' ');
 }
 
-export function addExpletive(phrase, length) {
+function addExpletive(phrase, length) {
   var curse = _.sample(curses.filter(tuple => tuple[1] === length));
   if (!curse) {
     return addExpletive(addExpletive(phrase, length - 1), 1);
@@ -164,7 +168,7 @@ export function addExpletive(phrase, length) {
   return addModifier(phrase, length, curse[0]);
 }
 
-export function addAdjective(phrase, length) {
+function addAdjective(phrase, length) {
   var adj = _.sample(adjectives.filter(tuple => tuple[1] === length));
   if (!adj) {
     return addAdjective(addAdjective(phrase, length - 1), 1);
@@ -188,7 +192,7 @@ function addModifier(phrase, length, mod) {
   return mod + ' ' + phrase;
 }
 
-export function shortenWord(word, adjustment) {
+function shortenWord(word, adjustment) {
   let possibleNewWord = [];
   let theNewWord;
   let newWordSyllables;
@@ -200,38 +204,33 @@ export function shortenWord(word, adjustment) {
 
   let list = []
 
-  return possibleSynonymArray(word).then(
-    function(response) {
-      if (!_.isEmpty(response)){
+  var response = possibleSynonymArray(word);
+  if (!_.isEmpty(response)){
+    for (let x = 0; x < response.length; x ++) {
+      list[x] = [response[x], syllable(response[x])]
+    }
 
-        response.forEach(function(possNewWord) {
-          newWordSyllables = syllable(possNewWord);
-          list.push([possNewWord, newWordSyllables]);
-        });
+    adjustedList = list.filter(synonym => synonym[1] - currentWordSyllables === adjustment);
 
-        adjustedList = list.filter(synonym => synonym[1] - currentWordSyllables === adjustment);
-        
-        if (!_.isEmpty(adjustedList)) {
-          return adjustedList[0][0];
-        }
+    if (!_.isEmpty(adjustedList)) {
+      return adjustedList[0][0];
+    }
 
-        else {
-          otheradjustednotasgoodList = list.filter(synonym => (synonym[1] - currentWordSyllables > adjustment) && (synonym[1] < currentWordSyllables)).sort(function(a, b) {return a[1]-b[1]});
-        }
+    else {
+      otheradjustednotasgoodList = list.filter(synonym => (synonym[1] - currentWordSyllables > adjustment) && (synonym[1] < currentWordSyllables)).sort(function(a, b) {return a[1]-b[1]});
+    }
 
-        if (!_.isEmpty(otheradjustednotasgoodList)) {
-          return otheradjustednotasgoodList[0][0]
-        } else {
-          return word;
-        }
-      } else {
-        return word;
-      }
-
-    });
+    if (!_.isEmpty(otheradjustednotasgoodList)) {
+      return otheradjustednotasgoodList[0][0]
+    } else {
+      return word;
+    }
+  } else {
+    return word;
+  }
 }
 
-export function expandWord(word, adjustment) {
+function expandWord(word, adjustment) {
   let possibleNewWord = [];
   let theNewWord;
   let newWordSyllables;
@@ -240,34 +239,41 @@ export function expandWord(word, adjustment) {
   let currentWordSyllables = syllable(word);
   let list = []
 
-  return possibleSynonymArray(word).then(
-    function(response) {
-      if (!_.isEmpty(response)){
-        response.forEach(function(possNewWord) {
-          newWordSyllables = syllable(possNewWord);
-          list.push([possNewWord, newWordSyllables]);
-        });
+  var response = possibleSynonymArray(word);
+  if (!_.isEmpty(response)){
+    for (let x = 0; x < response.length; x ++) {
+      list[x] = [response[x], syllable(response[x])]
+    }
+    
+    adjustedList = list.filter(synonym => synonym[1] - currentWordSyllables === adjustment);
 
-        adjustedList = list.filter(synonym => synonym[1] - currentWordSyllables === adjustment);
-        if (!_.isEmpty(adjustedList)) {
-          return adjustedList[0][0];
-        } else {
-          otheradjustednotasgoodList = list.filter(synonym => (synonym[1] - currentWordSyllables < adjustment) && (synonym[1] > currentWordSyllables)).sort(function(a, b) {return b[1]-a[1]});
-        } 
+    if (!_.isEmpty(adjustedList)) {
+      return adjustedList[0][0];
+    } else {
+      otheradjustednotasgoodList = list.filter(synonym => (synonym[1] - currentWordSyllables < adjustment) && (synonym[1] > currentWordSyllables)).sort(function(a, b) {return b[1]-a[1]});
+    } 
 
-        if (!_.isEmpty(otheradjustednotasgoodList)) {
-          return otheradjustednotasgoodList[0][0]
-        } else {
-          return word;
-        }
-      } else {
-        return word;
-      }
+    if (!_.isEmpty(otheradjustednotasgoodList)) {
+      return otheradjustednotasgoodList[0][0]
+    } else {
+      return word;
+    }
+  } else {
+    return word;
+  }
 
-    });
+
 }
 
 function possibleSynonymArray(word) {
+  let thesaurus;
+  if (thesaurus[word]) {
+    let wordList = thesaurus[word]
+    return wordList;
+  }
+}
+
+function possibleSynonymArrayAsync(word) {
   var promise = $.Deferred();
   var possibleNewWords = [];
   wordnet.lookup(word, function(err, definitions) {
@@ -293,5 +299,4 @@ function possibleSynonymArray(word) {
  *  a) if haiku -> print done !
  *  b) if not -> get most of haiku and continue? choose key words and continue?
  * 3. if shorter -> check syllable counts?
- * for what is missing -> fill in rhyme etc. to make up length ?? nonsensical ??
- */
+ * for what is missing -> fill in rhyme etc. to make up length ?? nonsensical ??*/
