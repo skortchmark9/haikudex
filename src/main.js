@@ -5,6 +5,10 @@ var $ = require('jquery-deferred');
 import stopwords from './data/stopwords.js';
 import descriptors from './data/descriptors.js';
 import cusseth from './data/cusseth.js';
+import nouns from './data/nouns.js';
+
+let adjectives = descriptors.map(word => [word, syllable(word)]);
+let curses = cusseth.map(word => [word, syllable(word)]);
 
 const HAIKU_LENGTH = 17;
 const separator = '//';
@@ -16,16 +20,39 @@ const FOUL = false;
 //import {path, files, version} from 'wordnet-db';
 
 // Chrys' Domain
+
 function addExpletive(phrase, length) {
   return phrase;
 }
 
-function addAdjective(phrase, length) {
-  return phrase;
+export function addAdjective(phrase, length) {
+  let tokens = phrase.split(/\W/);
+  let nounList = tokens.map(word => _.contains(nouns, word));
+  console.log(nounList);
+
+  var adj = _.sample(adjectives.filter(tuple => tuple[1] === length))[0];
+  for (var i in nounList) {
+    if (nounList[i]) {
+      tokens.splice(i, 0, adj);
+      return tokens.join(' ');
+    }
+  }
+
+  return adj + ' ' + phrase;
 }
 
-function removeWords(phrase, length) {
-  return phrase;
+export function removeWords(phrase, length) {
+  let tokens = phrase.split(/\W/);
+  let newTokens = [];
+  tokens.forEach(function(token) {
+    if (length && _.contains(stopwords, token)) {
+      length -= syllable(token);
+    } else {
+      newTokens.push(token);
+    }
+  });
+
+  return newTokens;
 }
 
 function addWords(phrase, length) {
