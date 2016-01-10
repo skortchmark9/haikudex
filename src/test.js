@@ -28,4 +28,4 @@ var almostHaikus = [
   'the car ran into a ditch and oil leaked from steaming tires'
 ];
 
-console.log(removeWords('thought his hammock was fat', -1));
+console.log(makeHaiku('thought his hammock was fat', -1));
