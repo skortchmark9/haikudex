@@ -33,14 +33,46 @@ function addWords(phrase, length) {
 }
 
 // Nicole WUZ HERE
-function shortenWord(word, adjustment) {
+export function shortenWord(word, adjustment) {
   console.log(word);
   let possibleNewWord = [];
   let theNewWord;
   let currentWorldSyllables = countSyllables(word);
 
-  if (word !== 'everything') {
-    wordnet.lookup(word, function(err, definitions) {
+
+  //abstract this 
+  possibleSynonymArray(word).then(console.log);
+      //possible synonym array then ...
+//      possibleNewWord.forEach(function(possNewWord) {
+//        let newWordSyllables = countSyllables(possNewWord);
+//        var 
+//        for (let x = 0; x < )
+
+/*
+        if (newWordSyllables - currentWorldSyllables === adjustment) {
+          theNewWord = possNewWord;
+          return theNewWord;
+        } 
+
+
+          ///else if gone through that's not happening then
+
+          if ((newWordSyllables - currentWorldSyllables) > adjustment && (newWordSyllables < currentWorldSyllables)) {
+            theNewWord = possNewWord;
+            return theNewWord;
+          }
+
+          return currentWorldSyllables
+          */
+ //       });
+}
+
+
+function possibleSynonymArray(word) {
+  var possibleNewWord = [];
+  var deferred = new Promise.deferred();
+  wordnet.lookup(word, function(err, definitions) {
+    if (definitions !== undefined) {
       definitions.forEach(function(definition) {
         var words = definition.meta.words;
         words.forEach(function(word) {
@@ -49,19 +81,12 @@ function shortenWord(word, adjustment) {
           }
         })
       });
-      possibleNewWord.forEach(function(possNewWord) {
-        let newWorldSyllables = countSyllables(possNewWord);
-        // this is not right ...
-      //  if ( ( newWorldSyllables - currentWorldSyllables) <= adjustment)
-      //  if (demSyllables <= maxShortening) {
-      //    console.log(possNewWord)
-          theNewWord = possNewWord;
-          return theNewWord;
-      });
-    });
-  }
-  return word;
+    }
+      deferred.fulfilled(possibleNewWord);
+  })
+  return deferred;
 }
+
 
 function expandWord(word, maxExpansion) {
   return word;
