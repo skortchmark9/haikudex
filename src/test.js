@@ -1,4 +1,4 @@
-import {isHaiku, makeHaiku, shortenWord, addAdjective, addExpletive, removeWords} from './main.js';
+import {isHaiku, makeHaiku, shortenWord, expandWord, addAdjective, addExpletive, removeWords} from './main.js';
 
 function all(arr) {
   return arr.reduce((a, b) => a && b, true);

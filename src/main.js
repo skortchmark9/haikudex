@@ -14,13 +14,7 @@ const HAIKU_LENGTH = 17;
 const separator = '//';
 const FOUL = true;
 
-// var wordNet = require('wordnet-magic');
-// var wn = wordNet('insert path', preload);
-
-// import {path, files, version} from 'wordnet-db';
-
 // Chrys' Domain
-
 function addModifier(phrase, length, mod) {
   let tokens = phrase.split(/\W/);
   let nounList = tokens.map(word => _.contains(nouns, word));
@@ -81,60 +75,39 @@ export function shortenWord(word, adjustment) {
 
   let list = []
 
-  //abstract this 
   possibleSynonymArray(word).then(
     function(response) {
+      if (!_.isEmpty(response)){
 
-      response.forEach(function(possNewWord) {
-        newWordSyllables = countSyllables(possNewWord);
-        list.push([possNewWord, newWordSyllables]);
-      });
+        response.forEach(function(possNewWord) {
+          newWordSyllables = countSyllables(possNewWord);
+          list.push([possNewWord, newWordSyllables]);
+        });
 
-      adjustedList = list.filter(synonym => synonym[1] - currentWordSyllables === adjustment);
-      console.log(adjustedList[0][0]);
-      if (!_.isEmpty(adjustedList)) {
-        return adjustedList[0][0];
-      }
+        adjustedList = list.filter(synonym => synonym[1] - currentWordSyllables === adjustment);
+        
+        if (!_.isEmpty(adjustedList)) {
+          console.log(adjustedList[0][0])
+          return adjustedList[0][0];
+        }
 
-      else {
-        otheradjustednotasgoodList = list.filter(synonym => (synonym[1] - currentWordSyllables > adjustment) && (synonym[1] < currentWordSyllables));
-      }
+        else {
+          otheradjustednotasgoodList = list.filter(synonym => (synonym[1] - currentWordSyllables > adjustment) && (synonym[1] < currentWordSyllables)).sort(function(a, b) {return a[1]-b[1]});
+          console.log(otheradjustednotasgoodList);
+        }
 
-      if (!_.isEmpty(otheradjustednotasgoodList)) {
-        return otheradjustednotasgoodList[0][0]
+        if (!_.isEmpty(otheradjustednotasgoodList)) {
+          return otheradjustednotasgoodList[0][0]
+        } else {
+          console.log(word);
+          return word;
+        }
       } else {
-        console.log(word);
         return word;
       }
 
     });
 }
-
-
-/*
-      mappedmapmap._pick(mappedmapmap, function(value, key, object) {
-        return 
-      }
-        return (if mappedmapmap[] - currentWorldSyllables === adjustment) })
-
-/*
-        if (newWordSyllables - currentWorldSyllables === adjustment) {
-          theNewWord = possNewWord;
-          return theNewWord;
-        } 
-
-
-          ///else if gone through that's not happening then
-
-          if ((newWordSyllables - currentWorldSyllables) > adjustment && (newWordSyllables < currentWorldSyllables)) {
-            theNewWord = possNewWord;
-            return theNewWord;
-          }
-
-          return currentWorldSyllables
-          */
- //       });
-
 
 function possibleSynonymArray(word) {
   var promise = $.Deferred();
@@ -156,8 +129,45 @@ function possibleSynonymArray(word) {
   return promise;
 }
 
-function expandWord(word, maxExpansion) {
-  return word;
+export function expandWord(word, adjustment) {
+  let possibleNewWord = [];
+  let theNewWord;
+  let newWordSyllables;
+  let adjustedList;
+  let otheradjustednotasgoodList;
+  let currentWordSyllables = countSyllables(word);
+  let list = []
+
+  possibleSynonymArray(word).then(
+    function(response) {
+      if (!_.isEmpty(response)){
+        response.forEach(function(possNewWord) {
+          newWordSyllables = countSyllables(possNewWord);
+          list.push([possNewWord, newWordSyllables]);
+        });
+
+        adjustedList = list.filter(synonym => synonym[1] - currentWordSyllables === adjustment);
+        console.log(adjustedList);
+        if (!_.isEmpty(adjustedList)) {
+          console.log(adjustedList[0][0])
+          return adjustedList[0][0];
+        } else {
+          otheradjustednotasgoodList = list.filter(synonym => (synonym[1] - currentWordSyllables < adjustment) && (synonym[1] > currentWordSyllables)).sort(function(a, b) {return b[1]-a[1]});
+        } 
+
+        if (!_.isEmpty(otheradjustednotasgoodList)) {
+          console.log(otheradjustednotasgoodList[0][0])
+          return otheradjustednotasgoodList[0][0]
+        } else {
+          console.log(word);
+          return word;
+        }
+      } else {
+        console.log(word);
+        return word;
+      }
+
+    });
 }
 
 let countSyllables = function(phrase) {
@@ -166,6 +176,7 @@ let countSyllables = function(phrase) {
 };
 
 function getLines(msg) {
+  console.log(msg);
   return msg.split(separator).map(s => s.trim()).map(line => line.split(/\W/));
 }
 
