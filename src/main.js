@@ -8,8 +8,6 @@ import cusseth from './data/cusseth.js';
 import nouns from './data/nouns.js';
 import thesaurus from './data/thesaurus.js';
 
-
-
 let adjectives = descriptors.map(word => [word, syllable(word)]);
 let curses = cusseth.map(word => [word, syllable(word)]);
 
