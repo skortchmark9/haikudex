@@ -2,7 +2,9 @@ import syllable from 'syllable';
 import _ from 'lodash';
 import wordnet from 'wordnet';
 var $ = require('jquery-deferred');
-import stopwords from '.data/stopwords.js';
+import stopwords from './data/stopwords.js';
+import descriptors from './data/descriptors.js';
+import cusseth from './data/cusseth.js';
 
 const HAIKU_LENGTH = 17;
 const separator = '//';
