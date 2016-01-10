@@ -251,7 +251,7 @@ function adjustSyllables(lines, adjustment) {
     let oldPhrase = joined[line];
     let lineCount = countSyllables(oldPhrase);
 
-    if (lineCount === (line === 1 ? 7 : 5)) {
+    if ((line === 1 && lineCount === 7) || lineCount === 5) {
       line++;
     } else {
       var newPhrase;
