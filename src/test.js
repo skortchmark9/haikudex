@@ -1,4 +1,4 @@
-import {isHaiku, makeHaiku, deferred} from './main.js';
+import {isHaiku, makeHaiku, deferred, shortenWord} from './main.js';
 
 function all(arr) {
   return arr.reduce((a, b) => a && b, true);
@@ -28,4 +28,4 @@ var almostHaikus = [
   'the car ran into a ditch and oil leaked from steaming tires'
 ];
 
-deferred().then(console.log);
+shortenWord('automobile', 1);

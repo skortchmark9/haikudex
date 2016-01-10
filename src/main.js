@@ -39,16 +39,50 @@ export function shortenWord(word, adjustment) {
   console.log(word);
   let possibleNewWord = [];
   let theNewWord;
-  let currentWorldSyllables = countSyllables(word);
+  let newWordSyllables;
+  let adjustedList;
+  let otheradjustednotasgoodList;
+  let currentWordSyllables = countSyllables(word);
 
+  adjustment = -adjustment;
+
+  let list = []
 
   //abstract this 
-  possibleSynonymArray(word).then(console.log);
-      //possible synonym array then ...
-//      possibleNewWord.forEach(function(possNewWord) {
-//        let newWordSyllables = countSyllables(possNewWord);
-//        var 
-//        for (let x = 0; x < )
+  possibleSynonymArray(word).then(
+    function(response) {
+
+      response.forEach(function(possNewWord) {
+        newWordSyllables = countSyllables(possNewWord);
+        list.push([possNewWord, newWordSyllables]);
+      });
+
+      adjustedList = list.filter(synonym => synonym[1] - currentWordSyllables === adjustment);
+      console.log(adjustedList[0][0]);
+      if (!_.isEmpty(adjustedList)) {
+        return adjustedList[0][0];
+      }
+
+      else {
+        otheradjustednotasgoodList = list.filter(synonym => (synonym[1] - currentWordSyllables > adjustment) && (synonym[1] < currentWordSyllables));
+      }
+
+      if (!_.isEmpty(otheradjustednotasgoodList)) {
+        return otheradjustednotasgoodList[0][0]
+      } else {
+        console.log(word);
+        return word;
+      }
+
+    });
+}
+
+
+/*
+      mappedmapmap._pick(mappedmapmap, function(value, key, object) {
+        return 
+      }
+        return (if mappedmapmap[] - currentWorldSyllables === adjustment) })
 
 /*
         if (newWordSyllables - currentWorldSyllables === adjustment) {
@@ -67,28 +101,27 @@ export function shortenWord(word, adjustment) {
           return currentWorldSyllables
           */
  //       });
-}
 
 
 function possibleSynonymArray(word) {
-  var possibleNewWord = [];
-  var deferred = new Promise.deferred();
+  var promise = $.Deferred();
+
+  var possibleNewWords = [];
   wordnet.lookup(word, function(err, definitions) {
-    if (definitions !== undefined) {
+    if (definitions) {
       definitions.forEach(function(definition) {
         var words = definition.meta.words;
         words.forEach(function(word) {
-          if (!_.includes(possibleNewWord, word.word)) { 
-            possibleNewWord.push(word.word);
+          if (!_.includes(possibleNewWords, word.word)) { 
+            possibleNewWords.push(word.word);
           }
         })
       });
     }
-      deferred.fulfilled(possibleNewWord);
+    promise.resolve(possibleNewWords);
   })
-  return deferred;
+  return promise;
 }
-
 
 function expandWord(word, maxExpansion) {
   return word;
@@ -198,16 +231,6 @@ export function breakIntoHaiku(msg) {
   return rows;
 }
 
-export function deferred() {
-  var promise = $.Deferred();
-
-  setTimeout(function() {
-    promise.resolve("RESLOVE");
-  }, 2000);
-
-  return promise;
-}
-
 /**
  * steps to check if it is a haiku
  * 1. check syllable length of commit
@@ -216,8 +239,8 @@ export function deferred() {
  *  b) if not -> get most of haiku and continue? choose key words and continue?
  * 3. if shorter -> check syllable counts?
  * for what is missing -> fill in rhyme etc. to make up length ?? nonsensical ??
-*/
-export function makeHaiku(msg) {
+ */
+ export function makeHaiku(msg) {
   let syllables = countSyllables(msg);
   let difference = HAIKU_LENGTH - syllables;
 
