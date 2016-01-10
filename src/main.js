@@ -12,12 +12,12 @@ let curses = cusseth.map(word => [word, syllable(word)]);
 
 const HAIKU_LENGTH = 17;
 const separator = '//';
-const FOUL = false;
+const FOUL = true;
 
 // var wordNet = require('wordnet-magic');
 // var wn = wordNet('insert path', preload);
 
-//import {path, files, version} from 'wordnet-db';
+// import {path, files, version} from 'wordnet-db';
 
 // Chrys' Domain
 
@@ -35,14 +35,14 @@ function addModifier(phrase, length, mod) {
   return mod + ' ' + phrase;
 }
 
-function addExpletive(phrase, length) {
+export function addExpletive(phrase, length) {
   var curse = _.sample(curses.filter(tuple => tuple[1] === length))[0];
-  addModifier(phrase, length, adj);
+  return addModifier(phrase, length, curse);
 }
 
 export function addAdjective(phrase, length) {
   var adj = _.sample(adjectives.filter(tuple => tuple[1] === length))[0];
-  addModifier(phrase, length, adj);
+  return addModifier(phrase, length, adj);
 }
 
 export function removeWords(phrase, length) {
