@@ -1,6 +1,5 @@
 #! /usr/bin/env node
 var fs = require('fs');
-console.log(process.argv[1]);
 var Haiku = require('../lib/main.js');
 
 var msgPath = process.argv[2];

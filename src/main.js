@@ -13,7 +13,7 @@ let curses = cusseth.map(word => [word, syllable(word)]);
 
 const HAIKU_LENGTH = 17;
 const separator = '//';
-const FOUL = true;
+const FOUL = false;
 
 function addModifier(phrase, length, mod) {
   let tokens = phrase.split(/\W/);
@@ -228,7 +228,7 @@ function adjustSyllables(lines, adjustment) {
     let oldPhrase = joined[line];
     let lineCount = countSyllables(oldPhrase);
 
-    if ((line === 1 && lineCount === 7) || lineCount === 5) {
+    if ((line === 1 && lineCount === 7) || (!(line % 2) && lineCount === 5)) {
       line++;
     } else {
       var newPhrase;
@@ -242,7 +242,6 @@ function adjustSyllables(lines, adjustment) {
           lineAdjustment = adjustment;
         }
       } else if (adjustment > 0) {
-
         let maxPossibleAdjustment = (maxLineAdjustment - lineCount);
         lineAdjustment = adjustment > maxPossibleAdjustment ? maxPossibleAdjustment : adjustment;
 
@@ -296,9 +295,9 @@ export function breakIntoHaiku(msg) {
   }
 
   return rows;
-};
+}
 
- export function makeHaiku(msg) {
+export function makeHaiku(msg) {
   let syllables = countSyllables(msg);
   let difference = HAIKU_LENGTH - syllables;
 
