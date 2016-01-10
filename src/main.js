@@ -239,7 +239,7 @@ function adjustSyllables(lines, adjustment) {
     }
   }
 
-  
+
 
   var joined = lines.map(line => line.join(' '));
   line = 0;
@@ -265,6 +265,8 @@ function adjustSyllables(lines, adjustment) {
         lineAdjustment = adjustment > maxLineAdjustment ? maxLineAdjustment : adjustment;
         lineAdjustment -= lineCount;
       }
+
+      console.log(oldPhrase, adjustment, lineAdjustment);
 
       newPhrase = adjustPhrase(oldPhrase, lineAdjustment);
 
