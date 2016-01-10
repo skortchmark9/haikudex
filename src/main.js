@@ -30,13 +30,21 @@ function addModifier(phrase, length, mod) {
 }
 
 export function addExpletive(phrase, length) {
-  var curse = _.sample(curses.filter(tuple => tuple[1] === length))[0];
-  return addModifier(phrase, length, curse);
+  var curse = _.sample(curses.filter(tuple => tuple[1] === length));
+  if (!curse) {
+    return addExpletive(addExpletive(phrase, length - 1), 1);
+  }
+
+  return addModifier(phrase, length, curse[0]);
 }
 
 export function addAdjective(phrase, length) {
-  var adj = _.sample(adjectives.filter(tuple => tuple[1] === length))[0];
-  return addModifier(phrase, length, adj);
+  var adj = _.sample(adjectives.filter(tuple => tuple[1] === length));
+  if (!adj) {
+    return addAdjective(addAdjective(phrase, length - 1), 1);
+  }
+
+  return addModifier(phrase, length, adj[0]);
 }
 
 export function removeWords(phrase, length) {
@@ -51,7 +59,7 @@ export function removeWords(phrase, length) {
     }
   });
 
-  return newTokens;
+  return newTokens.join(' ');
 }
 
 function addWords(phrase, length) {
@@ -178,11 +186,11 @@ function adjustWord(word, adjustment) {
   }
 }
 
-function adjustPhrase(phrase, adjustment) {
+export function adjustPhrase(phrase, adjustment) {
   if (adjustment > 0) {
-    return addWords(phrase, adjustment).join(' ');
+    return addWords(phrase, adjustment);
   } else if (adjustment < 0) {
-    return removeWords(phrase, adjustment).join(' ');
+    return removeWords(phrase, adjustment);
   } else {
     return phrase;
   }
