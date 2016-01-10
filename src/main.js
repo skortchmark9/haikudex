@@ -13,7 +13,7 @@ let curses = cusseth.map(word => [word, syllable(word)]);
 
 const HAIKU_LENGTH = 17;
 const separator = '//';
-const FOUL = true;
+const FOUL = false;
 
 
 // Chrys' Domain
@@ -47,7 +47,6 @@ export function addAdjective(phrase, length) {
 
   return addModifier(phrase, length, adj[0]);
 }
-
 
 export function removeWords(phrase, length) {
   let tokens = phrase.split(/\W/);
