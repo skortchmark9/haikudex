@@ -111,6 +111,8 @@ export function shortenWord(word, adjustment) {
 
 }
 
+
+
 function possibleSynonymArray(word) {
   if (thesaurus[word]) {
     return thesaurus[word];
