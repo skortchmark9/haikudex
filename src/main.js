@@ -46,6 +46,7 @@ export function addAdjective(phrase, length) {
 }
 
 export function removeWords(phrase, length) {
+  length *= -1;
   let tokens = phrase.split(/\W/);
   let newTokens = [];
   tokens.forEach(function(token) {
@@ -69,7 +70,6 @@ function addWords(phrase, length) {
 
 // Nicole WUZ HERE
 export function shortenWord(word, adjustment) {
-  console.log(word);
   let possibleNewWord = [];
   let theNewWord;
   let newWordSyllables;
@@ -91,7 +91,6 @@ export function shortenWord(word, adjustment) {
       });
 
       adjustedList = list.filter(synonym => synonym[1] - currentWordSyllables === adjustment);
-      console.log(adjustedList[0][0]);
       if (!_.isEmpty(adjustedList)) {
         return adjustedList[0][0];
       }
@@ -103,38 +102,11 @@ export function shortenWord(word, adjustment) {
       if (!_.isEmpty(otheradjustednotasgoodList)) {
         return otheradjustednotasgoodList[0][0]
       } else {
-        console.log(word);
         return word;
       }
 
     });
 }
-
-
-/*
-      mappedmapmap._pick(mappedmapmap, function(value, key, object) {
-        return 
-      }
-        return (if mappedmapmap[] - currentWorldSyllables === adjustment) })
-
-/*
-        if (newWordSyllables - currentWorldSyllables === adjustment) {
-          theNewWord = possNewWord;
-          return theNewWord;
-        } 
-
-
-          ///else if gone through that's not happening then
-
-          if ((newWordSyllables - currentWorldSyllables) > adjustment && (newWordSyllables < currentWorldSyllables)) {
-            theNewWord = possNewWord;
-            return theNewWord;
-          }
-
-          return currentWorldSyllables
-          */
- //       });
-
 
 function possibleSynonymArray(word) {
   var promise = $.Deferred();
@@ -165,9 +137,6 @@ let countSyllables = function(phrase) {
   return _.sum(tokens.map(syllable));
 };
 
-function getLines(msg) {
-  return msg.split(separator).map(s => s.trim()).map(line => line.split(/\W/));
-}
 
 function adjustWord(word, adjustment) {
   if (adjustment > 0) {
@@ -181,16 +150,15 @@ function adjustWord(word, adjustment) {
 
 function adjustPhrase(phrase, adjustment) {
   if (adjustment > 0) {
-    return addWords(phrase, adjustment);
+    return addWords(phrase, adjustment).join(' ');
   } else if (adjustment < 0) {
-    return removeWords(phrase, adjustment);
+    return removeWords(phrase, adjustment).join(' ');
   } else {
     return phrase;
   }
 }
 
-function adjustSyllables(msg, adjustment) {
-  let lines = getLines(msg);
+function adjustSyllables(lines, adjustment) {
   let line = 0;
   let idx = 0;
   let token = lines[line][idx];
@@ -198,16 +166,23 @@ function adjustSyllables(msg, adjustment) {
   // First loop to make small adjustments to existing words' lengths.
   while (adjustment !== 0 && line < 3) {
     let newWord = adjustWord(token, adjustment);
-    lines[line][idx] = newWord;
 
-    adjustment -= (newWord.length - token.length);
-    lines[line][idx] = token;
+    if (newWord) {
+      lines[line][idx] = newWord;
+      adjustment -= (syllable(newWord) - syllable(token));      
+    }
 
     idx++;
     token = lines[line][idx];
     if (!token) {
       line++;
+      idx = 0;
+
+      if (line > 2) {
+        break;
+      }
       token = lines[line][idx];
+
     }
   }
 
@@ -217,10 +192,19 @@ function adjustSyllables(msg, adjustment) {
   // Second while loop to add / remove extraneous words
   while (adjustment !== 0 && line < 3) {
     let oldPhrase = joined[line];
-    let newPhrase = adjustPhrase(oldPhrase, adjustment);
-    joined[line] = newPhrase;
-    adjustment -= (countSyllables(newPhrase), countSyllables(oldPhrase));
-    line++;
+    let lineCount = countSyllables(oldPhrase);
+
+    console.log(oldPhrase);
+    if (lineCount === (line === 1 ? 7 : 5)) {
+      line++;
+    } else {
+      let newPhrase = adjustPhrase(oldPhrase, adjustment);
+      joined[line] = newPhrase;
+      console.log(adjustment, newPhrase, oldPhrase);
+      adjustment -= (countSyllables(newPhrase) - countSyllables(oldPhrase));
+      line++;
+    }
+
   }
 
   return joined.join(' ' + separator + ' ');
