@@ -139,6 +139,8 @@ function possibleSynonymArrayAsync(word) {
   return promise;
 }
 
+
+
 export function expandWord(word, adjustment) {
   let possibleNewWord = [];
   let theNewWord;
