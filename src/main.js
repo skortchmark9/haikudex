@@ -50,6 +50,8 @@ export function addAdjective(phrase, length) {
   return addModifier(phrase, length, adj[0]);
 }
 
+
+
 export function removeWords(phrase, length) {
   length *= -1;
   let tokens = phrase.split(/\W/);
