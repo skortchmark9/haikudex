@@ -8,13 +8,12 @@ import cusseth from './data/cusseth.js';
 import nouns from './data/nouns.js';
 
 
-
 let adjectives = descriptors.map(word => [word, syllable(word)]);
 let curses = cusseth.map(word => [word, syllable(word)]);
 
 const HAIKU_LENGTH = 17;
 const separator = '//';
-const FOUL = true;
+const FOUL = false;
 
 // Chrys' Domain
 function addModifier(phrase, length, mod) {
