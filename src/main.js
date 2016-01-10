@@ -134,26 +134,41 @@ function adjustSyllables(msg, adjustment) {
 }
 
 export function isHaiku(msg) {
-  return countHaikuSyllables(msg, separator) === HAIKU_LENGTH;
+  return countSyllables(msg, separator) === HAIKU_LENGTH;
 }
 
 export function breakIntoHaiku(msg) {
-  var tokens = msg.split(/\W/);
-  var rows = [];
-  var row = [];
+  var tokens = msg.trim().split(/\W/);
+  var rows = [[], [], []];
   var rowSyllables = 0;
   var line = 0;
-  tokens.forEach(function(token) {
-    let syllables = syllable(token);
-    if (rowSyllables + syllables > (line === 1 ? 7 : 5)) {
-      rows.push(row);
-      rowSyllables = 0;
-      row = [];
-    } else {
-      rowSyllables += syllables;
-      row.push(token);
+  while (tokens.length) {
+    let token = tokens.shift();
+    let tokenLength = syllable(token);
+
+    if (line === 0) {
+      var diff = (rowSyllables + tokenLength) - 5;
+      if (diff > 0) {
+        line += 1;
+        rowSyllables = 0;
+      }
+
+    } else if (line === 1) {
+
+      var diff = (rowSyllables + tokenLength) - 7;
+      if (diff > 0) {
+        line += 1;
+        rowSyllables = 0;
+      }
+
     }
-  });
+
+    rowSyllables += tokenLength;
+    rows[line].push(token);
+
+  }
+
+  return rows;
 }
 
 /**
@@ -166,7 +181,7 @@ export function breakIntoHaiku(msg) {
  * for what is missing -> fill in rhyme etc. to make up length ?? nonsensical ??
 */
 export function makeHaiku(msg) {
-  let syllables = countHaikuSyllables(msg);
+  let syllables = countSyllables(msg);
   let difference = HAIKU_LENGTH - syllables;
 
   msg = breakIntoHaiku(msg);
