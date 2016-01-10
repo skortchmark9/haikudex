@@ -220,6 +220,7 @@ function adjustSyllables(lines, adjustment) {
   // First loop to make small adjustments to existing words' lengths.
   while (adjustment !== 0 && line < 3) {
     let newWord = adjustWord(token, adjustment);
+    console.log(newWord);
 
     if (newWord) {
       lines[line][idx] = newWord;
