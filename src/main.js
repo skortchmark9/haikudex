@@ -6,6 +6,7 @@ import stopwords from './data/stopwords.js';
 import descriptors from './data/descriptors.js';
 import cusseth from './data/cusseth.js';
 import nouns from './data/nouns.js';
+import thesaurus from './data/thesaurus.js';
 
 
 
@@ -191,8 +192,6 @@ let countSyllables = function(phrase) {
 };
 
 function adjustWord(word, adjustment) {
-  return word;
-
   if (adjustment > 0) {
     return expandWord(word, adjustment);
   } else if (adjustment < 0) {
