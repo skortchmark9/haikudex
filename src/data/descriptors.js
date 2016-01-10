@@ -43,5 +43,6 @@ export default ["fresh", "bold",
 "Jealous",
 "Kinky",
 "Laudatory",
-"Mandatory"
+"Mandatory",
+"refrigerated"
 ];
