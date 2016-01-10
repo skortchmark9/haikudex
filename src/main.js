@@ -198,6 +198,7 @@ function adjustWord(word, adjustment) {
 }
 
 export function adjustPhrase(phrase, adjustment) {
+  console.log(phrase, adjustment);
   if (adjustment > 0) {
     return addWords(phrase, adjustment);
   } else if (adjustment < 0) {
