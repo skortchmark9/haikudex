@@ -1,4 +1,4 @@
-import {isHaiku, makeHaiku, shortenWord, expandWord, addAdjective, addExpletive, removeWords} from './main.js';
+import {isHaiku, makeHaiku, shortenWord, expandWord, addAdjective, addExpletive, removeWords, adjustPhrase} from './main.js';
 
 function all(arr) {
   return arr.reduce((a, b) => a && b, true);
@@ -29,3 +29,4 @@ var almostHaikus = [
 ];
 
 makeHaiku('thought his hammock was fat and then here are more words to test');
+console.log('result', adjustPhrase('hat in my house cat', -1));

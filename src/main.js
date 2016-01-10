@@ -58,6 +58,31 @@ export function breakIntoHaiku(msg) {
   return rows;
 }
 
+let countSyllables = function(phrase) {
+  let tokens = phrase.split(/\W/);
+  return _.sum(tokens.map(syllable));
+};
+
+function adjustWord(word, adjustment) {
+  if (adjustment > 0) {
+    return expandWord(word, adjustment);
+  } else if (adjustment < 0) {
+    return shortenWord(word, adjustment);
+  } else {
+    return word;
+  }
+}
+
+export function adjustPhrase(phrase, adjustment) {
+  if (adjustment > 0) {
+    return addWords(phrase, adjustment);
+  } else if (adjustment < 0) {
+    return removeWords(phrase, adjustment);
+  } else {
+    return phrase;
+  }
+}
+
 function adjustSyllables(lines, adjustment) {
   let line = 0;
   let idx = 0;
@@ -84,6 +109,7 @@ function adjustSyllables(lines, adjustment) {
 
     }
   }
+
   var joined = lines.map(line => line.join(' '));
   line = 0;
 
@@ -103,33 +129,8 @@ function adjustSyllables(lines, adjustment) {
     }
 
   }
+
   return joined.join(' ' + separator + ' ');
-}
-
-let countSyllables = function(phrase) {
-  let tokens = phrase.split(/\W/);
-  return _.sum(tokens.map(syllable));
-};
-
-function adjustWord(word, adjustment) {
-  if (adjustment > 0) {
-    return expandWord(word, adjustment);
-  } else if (adjustment < 0) {
-    return shortenWord(word, adjustment);
-  } else {
-    return word;
-  }
-}
-
-function adjustPhrase(phrase, adjustment) {
-  if (adjustment > 0) {
-    console.log(addWords(phrase, adjustment));
-    return addWords(phrase, adjustment).join(' ');
-  } else if (adjustment < 0) {
-    return removeWords(phrase, adjustment).join(' ');
-  } else {
-    return phrase;
-  }
 }
 
 function addWords(phrase, length) {
@@ -138,7 +139,6 @@ function addWords(phrase, length) {
   } else {
     return addAdjective(phrase, length);
   }
-}
 
 export function removeWords(phrase, length) {
   length *= -1;
@@ -152,17 +152,25 @@ export function removeWords(phrase, length) {
     }
   });
 
-  return newTokens;
+  return newTokens.join(' ');
 }
 
 export function addExpletive(phrase, length) {
-  var curse = _.sample(curses.filter(tuple => tuple[1] === length))[0];
-  return addModifier(phrase, length, curse);
+  var curse = _.sample(curses.filter(tuple => tuple[1] === length));
+  if (!curse) {
+    return addExpletive(addExpletive(phrase, length - 1), 1);
+  }
+
+  return addModifier(phrase, length, curse[0]);
 }
 
 export function addAdjective(phrase, length) {
-  var adj = _.sample(adjectives.filter(tuple => tuple[1] === length))[0];
-  return addModifier(phrase, length, adj);
+  var adj = _.sample(adjectives.filter(tuple => tuple[1] === length));
+  if (!adj) {
+    return addAdjective(addAdjective(phrase, length - 1), 1);
+  }
+
+  return addModifier(phrase, length, adj[0]);
 }
 
 function addModifier(phrase, length, mod) {
@@ -261,7 +269,6 @@ export function expandWord(word, adjustment) {
 
 function possibleSynonymArray(word) {
   var promise = $.Deferred();
-
   var possibleNewWords = [];
   wordnet.lookup(word, function(err, definitions) {
     if (definitions) {
