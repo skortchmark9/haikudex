@@ -21,24 +21,28 @@ const FOUL = false;
 
 // Chrys' Domain
 
-function addExpletive(phrase, length) {
-  return phrase;
-}
-
-export function addAdjective(phrase, length) {
+function addModifier(phrase, length, mod) {
   let tokens = phrase.split(/\W/);
   let nounList = tokens.map(word => _.contains(nouns, word));
-  console.log(nounList);
 
-  var adj = _.sample(adjectives.filter(tuple => tuple[1] === length))[0];
   for (var i in nounList) {
     if (nounList[i]) {
-      tokens.splice(i, 0, adj);
+      tokens.splice(i, 0, mod);
       return tokens.join(' ');
     }
   }
 
-  return adj + ' ' + phrase;
+  return mod + ' ' + phrase;
+}
+
+function addExpletive(phrase, length) {
+  var curse = _.sample(curses.filter(tuple => tuple[1] === length))[0];
+  addModifier(phrase, length, adj);
+}
+
+export function addAdjective(phrase, length) {
+  var adj = _.sample(adjectives.filter(tuple => tuple[1] === length))[0];
+  addModifier(phrase, length, adj);
 }
 
 export function removeWords(phrase, length) {
