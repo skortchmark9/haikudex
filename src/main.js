@@ -2,7 +2,7 @@ import syllable from 'syllable';
 import _ from 'lodash';
 import wordnet from 'wordnet';
 var $ = require('jquery-deferred');
-import stopwords from './stopwords.js';
+import stopwords from '.data/stopwords.js';
 
 const HAIKU_LENGTH = 17;
 const separator = '//';
@@ -182,8 +182,6 @@ export function deferred() {
 
   return promise;
 }
-
-
 
 /**
  * steps to check if it is a haiku
