@@ -29,6 +29,7 @@
     "babel-preset-es2015": "^6.3.13",
     "eslint": "^1.10.3",
     "eslint-config-google": "^0.3.0",
+    "jquery-deferred": "^0.3.0",
     "lodash": "^3.10.1",
     "phonemenon": "^1.3.0",
     "syllable": "^0.1.4",

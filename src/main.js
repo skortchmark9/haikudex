@@ -1,6 +1,8 @@
 import syllable from 'syllable';
 import _ from 'lodash';
 import wordnet from 'wordnet';
+var $ = require('jquery-deferred');
+import stopwords from './data/stopwords.js';
 
 const HAIKU_LENGTH = 17;
 const separator = '//';
@@ -194,6 +196,16 @@ export function breakIntoHaiku(msg) {
   }
 
   return rows;
+}
+
+export function deferred() {
+  var promise = $.Deferred();
+
+  setTimeout(function() {
+    promise.resolve("RESLOVE");
+  }, 2000);
+
+  return promise;
 }
 
 /**
