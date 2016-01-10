@@ -265,7 +265,7 @@ function adjustSyllables(lines, adjustment) {
       } else if (adjustment > 0) {
         lineAdjustment = adjustment > maxLineAdjustment ? maxLineAdjustment : adjustment;
         lineAdjustment -= lineCount;
-        console.log('line', lineCount, lineAdjustment);
+        console.log('line', oldPhrase, lineCount, lineAdjustment);
       }
 
 
