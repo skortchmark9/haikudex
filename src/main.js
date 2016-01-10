@@ -254,9 +254,9 @@ function adjustSyllables(lines, adjustment) {
 
       if (adjustment < 0) {
         if ((adjustment * -1) > lineCount) {
-          lineAdjustment = lineCount * -1; 
+          lineAdjustment = lineCount * -1;
         } else {
-          lineAdjustment = adjustment
+          lineAdjustment = adjustment;
         }
       } else if (adjustment > 0) {
 
