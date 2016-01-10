@@ -29,3 +29,4 @@ var almostHaikus = [
 ];
 
 console.log(makeHaiku('thought his hammock was fat and then here are more words to test'))
+
