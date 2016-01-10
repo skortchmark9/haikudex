@@ -27,6 +27,7 @@ function addModifier(phrase, length, mod) {
 
   for (var i in nounList) {
     if (nounList[i]) {
+      console.log("noun!", i);
       tokens.splice(i + 1, 0, mod);
       return tokens.join(' ');
     }
