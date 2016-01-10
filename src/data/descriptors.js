@@ -31,4 +31,4 @@ import syllable from 'syllable'; export default ["fresh", "bold",
 "swaggering", "sweltering", "simpering", "omnipotent", "omnipresent",
 "pensive", "preoccupied", "slavish", "brutish", "boisterous",
 "cacophonous", "disasterous", "humble", "laconic", "mournful",
-"morose", "depressive", "envious"];
+"morose", "depressive", "envious", "active", "bloated", "crapulent", "deviant", "egalitarian", "finicky", "garrulous", "haunted", "insignificant", "jealous", "kinky", "laudatory", "mandatory", "naive", "dicey", "impecunious", "impenetrable", "inescapable"];
