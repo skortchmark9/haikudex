@@ -1,6 +1,7 @@
 import syllable from 'syllable';
 import _ from 'lodash';
 import wordnet from 'wordnet';
+import stopwords from './stopwords.js';
 
 const HAIKU_LENGTH = 17;
 const separator = '//';

@@ -27,9 +27,3 @@ if (any(notHaikus.map(isHaiku))) {
 var almostHaikus = [
   'the car ran into a ditch and oil leaked from steaming tires'
 ];
-
-if (all(almostHaikus.map(makeHaiku).map(isHaiku))) {
-  console.log('made a bunch of haikus!!');
-}
-
-console.log(break)
