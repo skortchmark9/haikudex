@@ -18,6 +18,7 @@ const separator = '//';
 const FOUL = true;
 
 
+
 // Chrys' Domain
 function addModifier(phrase, length, mod) {
   let tokens = phrase.split(/\W/);
