@@ -33,7 +33,6 @@ function addModifier(phrase, length, mod) {
   return mod + ' ' + phrase;
 }
 
-
 export function addExpletive(phrase, length) {
   var curse = _.sample(curses.filter(tuple => tuple[1] === length));
   if (!curse) {
@@ -219,7 +218,6 @@ function adjustSyllables(lines, adjustment) {
   // First loop to make small adjustments to existing words' lengths.
   while (adjustment !== 0 && line < 3) {
     let newWord = adjustWord(token, adjustment);
-    console.log(newWord);
 
     if (newWord) {
       lines[line][idx] = newWord;
@@ -244,7 +242,6 @@ function adjustSyllables(lines, adjustment) {
 
   var joined = lines.map(line => line.join(' '));
   line = 0;
-  console.log(adjustment);
 
   // Second while loop to add / remove extraneous words
   while (adjustment !== 0 && line < 3) {
