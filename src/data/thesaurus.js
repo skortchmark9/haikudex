@@ -8,6 +8,7 @@ export default {
 		"bowler",
 		"bucket",
 		"chapeau",
+		"ten-gallon",
 		"headpiece",
 		"lid",
 		"millinery",
