@@ -44,5 +44,6 @@ export default ["fresh", "bold",
 "kinky",
 "laudatory",
 "mandatory",
-"refrigerated"
+"refrigerated",
+"morose", "depressive", "envious", "active", "bloated", "crapulent", "deviant", "egalitarian", "finicky", "garrulous", "haunted", "insignificant", "jealous", "kinky", "laudatory", "mandatory", "naive", "dicey", "impecunious", "impenetrable", "inescapable"
 ];
