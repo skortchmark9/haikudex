@@ -24,10 +24,9 @@ const FOUL = false;
 function addModifier(phrase, length, mod) {
   let tokens = phrase.split(/\W/);
   let nounList = tokens.map(word => _.contains(nouns, word));
-
+  console.log(nounList, tokens);
   for (var i in nounList) {
     if (nounList[i]) {
-      console.log("noun!", i);
       tokens.splice(i + 1, 0, mod);
       return tokens.join(' ');
     }
