@@ -260,7 +260,7 @@ function adjustSyllables(lines, adjustment) {
       if (adjustment < 0) {
         maxLineAdjustment *= -1;
         lineAdjustment = adjustment < maxLineAdjustment ?  maxLineAdjustment : adjustment;
-        // lineAdjustment += lineCount;
+        lineAdjustment += lineCount;
       } else if (adjustment > 0) {
 
         let maxPossibleAdjustment = (maxLineAdjustment - lineCount);
