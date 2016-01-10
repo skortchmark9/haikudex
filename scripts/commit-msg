@@ -7,7 +7,8 @@ var msgPath = process.argv[2];
 fs.readFile(msgPath, 'utf8', function(err, msg) {
   var haiku = msg = msg.trim();
   // var haiku = Haiku.makeHaiku ? Haiku.makeHaiku(msg) : msg;
-  //var test = Haiku.makeHaiku(msg);
+  var test = Haiku.makeHaiku(msg);
+  console.log(test);
   if (Haiku.isHaiku(msg)) {
     haiku += ' is a haiku';
   } 
@@ -17,3 +18,6 @@ fs.readFile(msgPath, 'utf8', function(err, msg) {
   });
 });
 
+
+// breaking when too short (not three arrays)
+// breaking at add words
