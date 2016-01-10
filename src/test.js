@@ -28,4 +28,3 @@ var almostHaikus = [
   'the car ran into a ditch and oil leaked from steaming tires'
 ];
 
-console.log('result', adjustPhrase('hat in my house cat', -1));

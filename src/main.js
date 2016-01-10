@@ -126,11 +126,11 @@ function possibleSynonymArray(word) {
           if (!_.includes(possibleNewWords, word.word)) { 
             possibleNewWords.push(word.word);
           }
-        })
+        });
       });
     }
     promise.resolve(possibleNewWords);
-  })
+  });
   return promise;
 }
 
@@ -175,8 +175,9 @@ let countSyllables = function(phrase) {
   return _.sum(tokens.map(syllable));
 };
 
-
 function adjustWord(word, adjustment) {
+  return word;
+
   if (adjustment > 0) {
     return expandWord(word, adjustment);
   } else if (adjustment < 0) {
@@ -207,7 +208,7 @@ function adjustSyllables(lines, adjustment) {
 
     if (newWord) {
       lines[line][idx] = newWord;
-      adjustment -= (syllable(newWord) - syllable(token));      
+      adjustment -= (syllable(newWord) - syllable(token));
     }
 
     idx++;
@@ -234,15 +235,28 @@ function adjustSyllables(lines, adjustment) {
     if (lineCount === (line === 1 ? 7 : 5)) {
       line++;
     } else {
-      let newPhrase = adjustPhrase(oldPhrase, adjustment);
+      var newPhrase;
+      var maxLineAdjustment = (line === 1) ? 7 : 5;
+      var lineAdjustment;
+
+      if (adjustment < 0) {
+        maxLineAdjustment *= -1;
+        lineAdjustment = adjustment < maxLineAdjustment ?  maxLineAdjustment : adjustment;
+        lineAdjustment += lineCount;
+      } else {
+        lineAdjustment = adjustment > maxLineAdjustment ? maxLineAdjustment : adjustment;
+        lineAdjustment -= lineCount;
+      }
+
+      newPhrase = adjustPhrase(oldPhrase, lineAdjustment);
+
       joined[line] = newPhrase;
-      console.log(adjustment, newPhrase, oldPhrase);
       adjustment -= (countSyllables(newPhrase) - countSyllables(oldPhrase));
       line++;
     }
 
   }
-
+  console.log(joined);
   return joined.join(' ' + separator + ' ');
 }
 
@@ -298,6 +312,5 @@ export function breakIntoHaiku(msg) {
   let difference = HAIKU_LENGTH - syllables;
 
   msg = breakIntoHaiku(msg);
-  console.log(msg);
   return adjustSyllables(msg, difference);
 }
