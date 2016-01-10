@@ -197,7 +197,7 @@ export default {
 		"falcon",
 		"hawk",
 		"golden eagle",
-		"bald-headed eagle",
+		"bald-headed eagle"
 	],
 
 	
