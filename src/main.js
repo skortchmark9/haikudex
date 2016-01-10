@@ -219,7 +219,6 @@ function adjustSyllables(lines, adjustment) {
     }
   }
 
-
   var joined = lines.map(line => line.join(' '));
   line = 0;
 
@@ -227,6 +226,7 @@ function adjustSyllables(lines, adjustment) {
   while (adjustment !== 0 && line < 3) {
     let oldPhrase = joined[line];
     let lineCount = countSyllables(oldPhrase);
+    console.log(oldPhrase, lineCount);
 
     if ((line === 1 && lineCount === 7) || (!(line % 2) && lineCount === 5)) {
       line++;
